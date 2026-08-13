@@ -5,7 +5,7 @@ const slides = [
       "One of a kind residential project in the heart of the city, Aambagh Residences.",
     slideUrl: "/projects/aambagh-residences",
     slideTags: ["Residential", "Modern Design", "Sustainable", "Luxury"],
-    slideImg: "slide-img-1.jpg",
+    slideImg: "public/slide-img-1.jpg",
   },
   {
     slideTitle: "Aambagh Residences",
@@ -13,7 +13,7 @@ const slides = [
       "One of a kind residential project in the heart of the city, Aambagh Residences.",
     slideUrl: "/projects/aambagh-residences",
     slideTags: ["Residential", "Modern Design", "Sustainable", "Luxury"],
-    slideImg: "slide-img-2.jpg",
+    slideImg: "public/slide-img-2.jpg",
   },
   {
     slideTitle: "Aambagh Residences",
@@ -21,7 +21,7 @@ const slides = [
       "One of a kind residential project in the heart of the city, Aambagh Residences.",
     slideUrl: "/projects/aambagh-residences",
     slideTags: ["Residential", "Modern Design", "Sustainable", "Luxury"],
-    slideImg: "slide-img-3.jpg",
+    slideImg: "public/slide-img-3.jpg",
   },
   {
     slideTitle: "Aambagh Residences",
@@ -29,7 +29,7 @@ const slides = [
       "One of a kind residential project in the heart of the city, Aambagh Residences.",
     slideUrl: "/projects/aambagh-residences",
     slideTags: ["Residential", "Modern Design", "Sustainable", "Luxury"],
-    slideImg: "slide-img-4.jpg",
+    slideImg: "public/slide-img-4.jpg",
   },
 ];
 
