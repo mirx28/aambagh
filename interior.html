@@ -441,6 +441,37 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
 
       var lastImageProgress = 0;
 
+      /* Pre-cache strip containers + strips/images ONCE (no per-frame DOM queries).
+         Only the ACTIVE container's strips are updated each frame; others are set
+         to a static open/closed state once and then skipped. */
+      var stripStates = [];
+      for (var cI = 0; cI < transitionCount; cI++) {
+        var cc = document.getElementById("img-container-" + (cI + 2));
+        if (!cc) { stripStates.push(null); continue; }
+        var cStrips = Array.prototype.slice.call(cc.querySelectorAll(".strip"));
+        var cImgs = Array.prototype.slice.call(cc.querySelectorAll("img"));
+        var openPaths = [], closedPaths = [];
+        for (var si0 = 0; si0 < cStrips.length; si0++) {
+          var spfb0 = cStrips.length - si0 - 1;
+          var sub0 = spfb0 * (100 / cStrips.length);
+          var slb0 = (spfb0 + 1) * (100 / cStrips.length);
+          openPaths.push("polygon(0% " + slb0 + "%, 100% " + slb0 + "%, 100% " + (sub0 - 0.1) + "%, 0% " + (sub0 - 0.1) + "%)");
+          closedPaths.push("polygon(0% " + slb0 + "%, 100% " + slb0 + "%, 100% " + slb0 + "%, 0% " + slb0 + "%)");
+        }
+        stripStates.push({ el: cc, strips: cStrips, imgs: cImgs, openPaths: openPaths, closedPaths: closedPaths, mode: -1 });
+        cc.style.opacity = "0";
+      }
+
+      function applyStaticContainer(entry, open) {
+        if (entry.mode === open) return;
+        entry.mode = open;
+        entry.el.style.opacity = "1";
+        var paths = open ? entry.openPaths : entry.closedPaths;
+        for (var k = 0; k < entry.strips.length; k++) entry.strips[k].style.clipPath = paths[k];
+        var sc = open ? 1 : 1.25;
+        for (var k2 = 0; k2 < entry.imgs.length; k2++) entry.imgs[k2].style.transform = "scale(" + sc + ")";
+      }
+
       ScrollTrigger.create({
         trigger: ".sticky-slider",
         start: "top top",
@@ -467,43 +498,30 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
             var firstSlideImgScale = getScaleForImage(0, currentImageIndex, imageSpecificProgress);
             firstSlideImg.style.transform = "scale(" + firstSlideImgScale + ")";
 
-            for (var i4 = 1; i4 < totalSlides; i4++) {
-              var imgIndex = i4 + 1;
-              var transitionIndex = imgIndex - 2;
-              var imgContainer = document.getElementById("img-container-" + imgIndex);
-              if (!imgContainer) continue;
-
-              imgContainer.style.opacity = "1";
-              var strips = imgContainer.querySelectorAll(".strip");
-              var images = imgContainer.querySelectorAll("img");
+            for (var i4 = 0; i4 < stripStates.length; i4++) {
+              var entry = stripStates[i4];
+              if (!entry) continue;
+              var transitionIndex = i4;
 
               if (transitionIndex < currentImageIndex) {
-                strips.forEach(function (strip, si) {
-                  var spfb = stripsCount - si - 1;
-                  var sub = spfb * (100 / stripsCount);
-                  var slb = (spfb + 1) * (100 / stripsCount);
-                  strip.style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + (sub - 0.1) + "%, 0% " + (sub - 0.1) + "%)";
-                });
-              } else if (transitionIndex === currentImageIndex) {
-                strips.forEach(function (strip, si) {
-                  var spfb = stripsCount - si - 1;
-                  var sub = spfb * (100 / stripsCount);
-                  var slb = (spfb + 1) * (100 / stripsCount);
-                  var stripDelay = (si / stripsCount) * 0.5;
+                applyStaticContainer(entry, 1);
+              } else if (transitionIndex > currentImageIndex) {
+                applyStaticContainer(entry, 0);
+              } else {
+                entry.el.style.opacity = "1";
+                entry.mode = -1;
+                for (var a5 = 0; a5 < entry.strips.length; a5++) {
+                  var spfb = entry.strips.length - a5 - 1;
+                  var sub = spfb * (100 / entry.strips.length);
+                  var slb = (spfb + 1) * (100 / entry.strips.length);
+                  var stripDelay = (a5 / entry.strips.length) * 0.5;
                   var adjustedProgress = Math.max(0, Math.min(1, (imageSpecificProgress - stripDelay) * 2));
                   var currentSub = slb - (slb - (sub - 0.1)) * adjustedProgress;
-                  strip.style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + currentSub + "%, 0% " + currentSub + "%)";
-                });
-              } else {
-                strips.forEach(function (strip, si) {
-                  var spfb = stripsCount - si - 1;
-                  var slb = (spfb + 1) * (100 / stripsCount);
-                  strip.style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + slb + "%, 0% " + slb + "%)";
-                });
+                  entry.strips[a5].style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + currentSub + "%, 0% " + currentSub + "%)";
+                }
+                var activeScale = getScaleForImage(transitionIndex, currentImageIndex, imageSpecificProgress);
+                for (var a6 = 0; a6 < entry.imgs.length; a6++) entry.imgs[a6].style.transform = "scale(" + activeScale + ")";
               }
-
-              var imgScale = getScaleForImage(transitionIndex, currentImageIndex, imageSpecificProgress);
-              images.forEach(function (img) { img.style.transform = "scale(" + imgScale + ")"; });
             }
 
             lastImageProgress = imageProgress;
