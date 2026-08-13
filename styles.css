@@ -1,0 +1,574 @@
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+:root {
+  --ih-100: #ebf5df;
+  --ih-200: #a42d0c;
+  --ih-300: #0f0f0f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "PP Neue Montreal", sans-serif;
+}
+
+img,
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+h1 span {
+  font-family: "PP Editorial Old", "PP Neue Montreal";
+  font-weight: 500;
+  font-style: italic;
+  -webkit-font-smoothing: antialiased;
+}
+
+a,
+p {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* ============ NAV ============ */
+.nav {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  padding: 1.4em 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  will-change: transform;
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo-img {
+  width: auto;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,0.35));
+}
+
+.nav-links {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* ============ HEADER ============ */
+.header {
+  width: 100%;
+  height: 100%;
+  padding-top: 25svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
+}
+
+/* ============ CTA ============ */
+.cta {
+  position: absolute;
+  left: 50%;
+  bottom: 3em;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 60px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #fff;
+  border-radius: 4rem;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.cta-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cta-label p {
+  color: #000;
+}
+
+.cta-icon {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: #303030;
+  border-radius: 60px;
+  will-change: transform;
+}
+
+/* ============ LOADER ============ */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.block {
+  width: 100%;
+  height: 100%;
+  background: #303030;
+}
+
+.intro-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.25rem;
+}
+
+#word-1 {
+  position: relative;
+  left: -0.5rem;
+  padding-right: 0.25rem;
+}
+
+.word h1 {
+  font-size: 2.5rem;
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center top;
+  width: 1px;
+  height: 100%;
+  background-color: #fff;
+}
+
+.spinner-container {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 1.4px solid #fff;
+  border-top-color: rgba(255, 255, 255, 0.125);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.counter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.digit {
+  flex: 1;
+  padding-top: 1rem;
+}
+
+.count .digit h1 {
+  font-family: "PP Editorial Old", "PP Neue Montreal";
+  font-size: 15rem;
+  font-weight: 400;
+}
+
+/* ============ ANIMATION INITIAL STATES ============ */
+.nav {
+  transform: translateY(-120%);
+}
+
+.cta {
+  transform: translateX(-50%) scale(0);
+}
+
+.cta-icon {
+  transform: scale(0);
+}
+
+.line,
+.cta-label,
+.word,
+.count .digit {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.line h1,
+.line p,
+.cta-label p,
+.count .digit h1 {
+  position: relative;
+  transform: translateY(120%);
+  will-change: transform;
+}
+
+#word-1 h1 {
+  transform: translateY(-120%);
+}
+
+#word-2 h1 {
+  transform: translateY(120%);
+}
+
+.block {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.divider {
+  transform: scaleY(0%);
+  will-change: transform;
+}
+
+.hero-img {
+  transform: scale(1.5);
+  will-change: transform;
+}
+
+/* ============ IRONHILL SECTION (scoped typography) ============ */
+.ih-hero,
+.ih-about {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ih-hero h1,
+.ih-hero h2 {
+  text-transform: uppercase;
+  font-family: "Instrument Serif", sans-serif;
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.ih-hero h1 {
+  font-size: clamp(4rem, 7.5vw, 10rem);
+}
+
+.ih-hero h2 {
+  font-size: clamp(2.5rem, 4.5vw, 5rem);
+}
+
+.ih-hero p,
+.ih-about p {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  text-transform: none;
+  color: inherit;
+}
+
+.ih-hero {
+  height: 175svh;
+  color: var(--ih-200);
+}
+
+.ih-hero-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.ih-hero-header {
+  position: absolute;
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.ih-hero-header h1 {
+  color: #fff;
+}
+
+.ih-hero-header p {
+  width: 75%;
+  color: #fff;
+}
+
+.ih-hero-canvas {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ih-hero-content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 125svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.ih-hero-content h2 {
+  width: 75%;
+  color: var(--ih-300);
+}
+
+.ih-about {
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--ih-300);
+  color: var(--ih-100);
+}
+
+.ih-about p {
+  width: 40%;
+  text-align: center;
+}
+
+/* ============ PROJECT SLIDER (scoped typography) ============ */
+.ps-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+}
+
+.ps-wrapper h1 {
+  font-family: "DM Sans", sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 5rem;
+  font-weight: 600;
+  letter-spacing: -0.1rem;
+}
+
+.ps-wrapper p,
+.ps-wrapper a {
+  font-family: "DM Mono", monospace;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: -0.01rem;
+}
+
+.ps-slider {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.ps-slide,
+.ps-slide-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+}
+
+.ps-slide {
+  will-change: transform;
+}
+
+.ps-slide-header {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 75%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1;
+}
+
+.ps-slide-description {
+  width: 60%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ps-slide-info {
+  position: absolute;
+  left: 0;
+  bottom: 2rem;
+  width: 100vw;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.ps-slide-tags {
+  display: flex;
+  flex-direction: column;
+}
+
+.ps-slide-index-wrapper {
+  display: flex;
+}
+
+.ps-slide-index-wrapper p {
+  text-align: center;
+  width: 2rem;
+}
+
+.ps-slide-tags p:first-child {
+  margin-bottom: 1rem;
+}
+
+.ps-line,
+.ps-word {
+  position: relative;
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-logo-img {
+    height: 38px;
+  }
+
+  .cta {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .ih-hero-content h2,
+  .ih-about p {
+    width: calc(100% - 4rem);
+  }
+
+  .ps-wrapper h1 {
+    font-size: 2rem;
+    letter-spacing: 0;
+  }
+
+  .ps-wrapper p {
+    font-size: 0.8rem;
+  }
+
+  .ps-slide-header {
+    top: 50%;
+    bottom: unset;
+    transform: translate(-50%, -50%);
+    width: 90%;
+  }
+
+  .ps-slide-description {
+    width: 100%;
+  }
+}

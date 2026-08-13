@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aambagh Residences — Interior | Srivaas Realty</title>
+
+  <!-- ============ CDN LIBS ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <style>
+  /* ===== CORNER FOLD NAV ===== */
+  .cf-tab{position:fixed;top:max(env(safe-area-inset-top),1rem);right:max(env(safe-area-inset-right),1rem);
+    display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.1rem;
+    border:1px solid rgba(201,162,39,.55);border-radius:999px;background:rgba(10,9,8,.5);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);cursor:pointer;z-index:982;
+    color:#e0c879;-webkit-tap-highlight-color:transparent;user-select:none;
+    transition:transform .5s cubic-bezier(.9,0,.1,1),background .3s;}
+  .cf-tab:hover{background:rgba(201,162,39,.16)}
+  .cf-tab.is-open{transform:rotate(-6deg)}
+  .cf-tab .tt{font-family:"Geist Mono","DM Mono",monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#fff}
+  .cf-tab .tg{font-size:.6rem;color:#c9a227;transition:transform .45s cubic-bezier(.9,0,.1,1)}
+  .cf-tab.is-open .tg{transform:rotate(180deg)}
+  .cf-tab::after{content:"";position:absolute;top:-1px;right:-1px;width:14px;height:14px;
+    background:conic-gradient(from 225deg,transparent 0 90deg,#c9a227 0);border-radius:0 999px 0 0}
+  .cf-fold{position:fixed;top:0;right:0;bottom:0;z-index:981;width:min(100vw,430px);
+    background:rgba(9,8,7,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    border-left:1px solid rgba(201,162,39,.22);display:flex;flex-direction:column;
+    padding:calc(env(safe-area-inset-top) + 5.5rem) 2.2rem calc(env(safe-area-inset-bottom) + 2.2rem);
+    clip-path:inset(0 0 0 100%);transition:clip-path .8s cubic-bezier(.83,0,.17,1);
+    pointer-events:none;overflow:hidden;}
+  .cf-fold.is-open{clip-path:inset(0 0 0 0);pointer-events:auto}
+  .cf-fold .cf-bg{position:absolute;top:0;right:-2px;height:100%;width:1px;
+    background:linear-gradient(to bottom,#c9a227,rgba(201,162,39,0));opacity:0;transition:opacity .6s .3s}
+  .cf-fold.is-open .cf-bg{opacity:1}
+  .cf-wordmark{display:flex;align-items:baseline;gap:.5rem;margin-bottom:3rem}
+  .cf-wordmark b{font-family:"PP Neue Montreal",system-ui,sans-serif;font-weight:600;font-size:1rem;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+  .cf-wordmark i{font-family:"Instrument Serif",serif;font-style:italic;font-size:1rem;color:#c9a227}
+  .cf-no{font-family:"Geist Mono","DM Mono",monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.4)}
+  .cf-links{display:flex;flex-direction:column}
+  .cf-link{display:flex;align-items:center;gap:1rem;padding:.9rem 0;text-decoration:none;color:rgba(255,255,255,.6);
+    border-bottom:1px solid rgba(255,255,255,.08);font-family:"PP Neue Montreal",system-ui,sans-serif;
+    font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;
+    opacity:0;transform:translateX(26px);transition:opacity .5s,transform .5s,color .3s,padding-left .4s cubic-bezier(.9,0,.1,1);
+    -webkit-tap-highlight-color:transparent}
+  .cf-link .cf-idx{font-family:"Geist Mono","DM Mono",monospace;font-size:.58rem;color:#c9a227;letter-spacing:.14em}
+  .cf-link .cf-arr{font-family:"Instrument Serif",serif;font-style:italic;font-size:.9rem;color:#c9a227;opacity:0;transform:translateX(-6px);transition:opacity .3s,transform .3s}
+  .cf-fold.is-open .cf-link{opacity:1;transform:translateY(0)}
+  .cf-fold.is-open .cf-link:nth-child(1){transition-delay:.15s}
+  .cf-fold.is-open .cf-link:nth-child(2){transition-delay:.24s}
+  .cf-fold.is-open .cf-link:nth-child(3){transition-delay:.33s}
+  .cf-fold.is-open .cf-link:nth-child(4){transition-delay:.42s}
+  .cf-link:hover,.cf-link.is-active{color:#fff;padding-left:.6rem}
+  .cf-link:hover .cf-arr,.cf-link.is-active .cf-arr{opacity:1;transform:translateX(0)}
+  .cf-link.is-active .cf-arr{opacity:1}
+  .cf-foot{margin-top:auto;display:flex;justify-content:space-between;gap:1rem;padding-top:2rem;
+    font-family:"Geist Mono","DM Mono",monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+  .cf-foot a{color:#c9a227;text-decoration:none}
+  html.cf-lock,html.cf-lock body{overflow:hidden}
+  @media (prefers-reduced-motion:reduce){.cf-fold{transition:none}.cf-link{transition:none}}
+
+    @import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "PP Neue Montreal", sans-serif; background: #141414; }
+
+    img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s ease-out; transform-origin: center center; }
+
+    nav {
+      position: fixed; top: 0; width: 100%; padding: 1.5em 2em;
+      display: flex; justify-content: space-between; gap: 1.5em; z-index: 100;
+      background: rgba(20,20,20,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-items { display: flex; gap: 1.5em; align-items: center; }
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: auto;
+    }
+    .nav-logo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    h1, a, p { color: #fff; font-weight: 500; line-height: 100%; letter-spacing: -0.02rem; -webkit-font-smoothing: antialiased; }
+h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: none; }
+
+.sticky-slider h1 { text-indent: 8rem; }
+    a, p { text-decoration: none; font-size: 1rem; }
+    a:hover { opacity: 0.7; }
+
+    section { position: relative; width: 100vw; height: 100svh; padding: 1.5em; overflow: hidden; }
+    .intro, .outro {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      background-color: #141414;
+    }
+    .intro-video,
+    .outro-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .intro::after,
+    .outro::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 0;
+    }
+    .copy-block {
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-images, .img, .img-container, .strip { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+    .copy-block {
+      max-width: 46rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .eyebrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: #b08d3e;
+    }
+
+    .eyebrow-index {
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.1em;
+    }
+
+    .eyebrow-rule {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .intro h1 em,
+    .outro h1 em {
+      font-style: italic;
+      font-weight: 500;
+      color: #b08d3e;
+    }
+
+    .reveal-word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+    }
+
+    .reveal-word span {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+
+    .slide-info {
+      position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+      width: 100vw; padding: 0 1.5em; display: flex; gap: 2em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .slide-info > * { flex: 1; }
+    .slide-info p, .slide-link a { font-size: 36px; will-change: transform; }
+    .slide-link { display: flex; justify-content: flex-end; }
+    .slide-title { position: relative; flex: 2; height: 40px; overflow: hidden; }
+    .slide-title p { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+
+    @media (max-width: 1000px) {
+      h1 { font-size: 2rem; }
+      .slide-title-prefix { display: none; }
+      .slide-title { height: 22px; }
+      .slide-info p, .slide-link a { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <button class="cf-tab" id="cfTab" aria-label="Open menu" aria-expanded="false"><span class="tt">SRIVAAS</span><span class="tg">↓</span></button>
+<nav class="cf-fold" id="cfFold" aria-label="Primary">
+  <div class="cf-bg"></div>
+  <div class="cf-wordmark"><b>Srivaas</b><i>Realty</i><span class="cf-no">Aambagh · </span></div>
+  <div class="cf-links">
+    <a class="cf-link" href="index.html"><span class="cf-idx">01</span>Home<span class="cf-arr">→</span></a>
+    <a class="cf-link is-active" href="interior.html"><span class="cf-idx">02</span>Interior<span class="cf-arr">→</span></a>
+    <a class="cf-link" href="exterior.html"><span class="cf-idx">03</span>Exterior<span class="cf-arr">→</span></a>
+    <a class="cf-link" href="walkthrough.html"><span class="cf-idx">04</span>Walkthrough<span class="cf-arr">→</span></a>
+  </div>
+  <div class="cf-foot"><span>© Srivaas Realty</span><a href="mailto:hello@aambagh.in">Enquire →</a></div>
+</nav>
+
+ <!-- ============ INTRO ============ -->
+  <section class="intro">
+    <video class="intro-video" src="https://mirx28.github.io/aambagh-residencesvideos/interior.mp4" autoplay muted loop playsinline></video>
+    <div class="copy-block">
+      <div class="eyebrow">
+        <span>Interior</span>
+        <span class="eyebrow-index"></span>
+      </div>
+      <div class="eyebrow-rule"></div>
+      <h1 id="intro-heading">
+        Where light shapes every surface and material tells a story of craft —
+        the interiors of <em>Aambagh Residences</em> unfold as a sequence of
+        considered spaces.
+      </h1>
+    </div>
+  </section>
+
+  <!-- ============ STICKY SLIDER (15 slides) ============ -->
+  <section class="sticky-slider">
+    <div class="slide-images">
+      <div class="img" id="img-1">
+        <img src="img1.jpg" alt="" />
+      </div>
+    </div>
+
+    <div class="slide-info">
+      <div class="slide-title-prefix">
+        <p>Interior</p>
+      </div>
+      <div class="slide-title">
+        <p id="title-text">Grand Foyer</p>
+      </div>
+      <div class="slide-link">
+        <a href="#">Explore &#8599;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTRO ============ -->
+  <section class="outro">
+    <video class="outro-video" src="https://mirx28.github.io/aambagh-residencesvideos/interior.mp4" autoplay muted loop playsinline></video>
+    <div class="copy-block">
+      <div class="eyebrow">
+        <span>Closing</span>
+        <span class="eyebrow-index">15/15</span>
+      </div>
+      <div class="eyebrow-rule"></div>
+      <h1 id="outro-heading">
+        Each room a composition of texture, tone, and silence — inviting you
+        to inhabit a work of art shaped by <em>Srivaas Realty</em>.
+      </h1>
+    </div>
+  </section>
+  <script>
+    /* ===============================================================
+       15 SLIDES DATA
+    =============================================================== */
+    const slides = [
+      { title: "Grand Foyer",      image: "img1.jpg",  url: "/interior/grand-foyer" },
+      { title: "Living Salon",     image: "img2.jpg",  url: "/interior/living-salon" },
+      { title: "The Library",      image: "img3.jpg",  url: "/interior/the-library" },
+      { title: "Dining Hall",      image: "img4.jpg",  url: "/interior/dining-hall" },
+      { title: "Kitchen Atrium",   image: "img5.jpg",  url: "/interior/kitchen-atrium" },
+      { title: "Master Suite",     image: "img6.jpg",  url: "/interior/master-suite" },
+      { title: "Bath Chamber",     image: "img7.jpg",  url: "/interior/bath-chamber" },
+      { title: "Guest Wing",       image: "img8.jpg",  url: "/interior/guest-wing" },
+      { title: "Children's Suite", image: "img9.jpg",  url: "/interior/childrens-suite" },
+      { title: "The Study",        image: "img10.jpg", url: "/interior/the-study" },
+      { title: "Wine Cellar",      image: "img11.jpg", url: "/interior/wine-cellar" },
+      { title: "Spa Pavilion",     image: "img12.jpg", url: "/interior/spa-pavilion" },
+      { title: "Home Theatre",     image: "img13.jpg", url: "/interior/home-theatre" },
+      { title: "Art Gallery",      image: "img14.jpg", url: "/interior/art-gallery" },
+      { title: "Rooftop Terrace",  image: "img15.jpg", url: "/interior/rooftop-terrace" },
+    ];
+
+    /* ===============================================================
+       STRIP SLIDER — full logic (converted from module to CDN globals)
+    =============================================================== */
+    (function () {
+      gsap.registerPlugin(ScrollTrigger);
+
+
+      
+      const lenis = new Lenis();
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+
+      var slideImages = document.querySelector(".slide-images");
+      var titleElement = document.getElementById("title-text");
+      var exploreLink = document.querySelector(".slide-link a");
+
+      var totalSlides = slides.length;
+      var stripsCount = 25;
+      var currentTitleIndex = 0;
+      var queuedTitleIndex = null;
+      var titleChangeThreshold = 0.5;
+      var isAnimating = false;
+
+      var firstSlideImg = document.querySelector("#img-1 img");
+      firstSlideImg.style.transform = "scale(1.25)";
+
+      // Create strip containers for slides 2–15
+      for (var i = 1; i < totalSlides; i++) {
+        var imgContainer = document.createElement("div");
+        imgContainer.className = "img-container";
+        imgContainer.id = "img-container-" + (i + 1);
+        imgContainer.style.opacity = "0";
+
+        for (var j = 0; j < stripsCount; j++) {
+          var strip = document.createElement("div");
+          strip.className = "strip";
+
+          var img = document.createElement("img");
+          img.src = slides[i].image;
+          img.alt = slides[i].title;
+          img.style.transform = "scale(1.25)";
+
+          var stripPositionFromBottom = stripsCount - j - 1;
+          var stripLowerBound = (stripPositionFromBottom + 1) * (100 / stripsCount);
+          var stripUpperBound = stripPositionFromBottom * (100 / stripsCount);
+
+          strip.style.clipPath = "polygon(0% " + stripLowerBound + "%, 100% " + stripLowerBound + "%, 100% " + (stripUpperBound - 0.1) + "%, 0% " + (stripUpperBound - 0.1) + "%)";
+
+          strip.appendChild(img);
+          imgContainer.appendChild(strip);
+        }
+        slideImages.appendChild(imgContainer);
+      }
+
+      var transitionCount = totalSlides - 1;
+      var scrollDistancePerTransition = 1000;
+      var initialScrollDelay = 300;
+      var finalScrollDelay = 300;
+
+      var totalScrollDistance = transitionCount * scrollDistancePerTransition + initialScrollDelay + finalScrollDelay;
+
+      var transitionRanges = [];
+      var currentScrollPosition = initialScrollDelay;
+
+      for (var i2 = 0; i2 < transitionCount; i2++) {
+        var transitionStart = currentScrollPosition;
+        var transitionEnd = transitionStart + scrollDistancePerTransition;
+
+        transitionRanges.push({
+          transition: i2,
+          startVh: transitionStart,
+          endVh: transitionEnd,
+          startPercent: transitionStart / totalScrollDistance,
+          endPercent: transitionEnd / totalScrollDistance,
+        });
+
+        currentScrollPosition = transitionEnd;
+      }
+
+      function calculateImageProgress(scrollProgress) {
+        var imageProgress = 0;
+
+        if (scrollProgress < transitionRanges[0].startPercent) return 0;
+        if (scrollProgress > transitionRanges[transitionRanges.length - 1].endPercent) return transitionRanges.length;
+
+        for (var i3 = 0; i3 < transitionRanges.length; i3++) {
+          var range = transitionRanges[i3];
+          if (scrollProgress >= range.startPercent && scrollProgress <= range.endPercent) {
+            var rangeSize = range.endPercent - range.startPercent;
+            var normalizedProgress = (scrollProgress - range.startPercent) / rangeSize;
+            imageProgress = i3 + normalizedProgress;
+            break;
+          } else if (scrollProgress > range.endPercent) {
+            imageProgress = i3 + 1;
+          }
+        }
+        return imageProgress;
+      }
+
+      function getScaleForImage(imageIndex, currentImageIndex, progress) {
+        if (imageIndex > currentImageIndex) return 1.25;
+        if (imageIndex < currentImageIndex - 1) return 1;
+        var totalProgress = imageIndex === currentImageIndex ? progress : 1 + progress;
+        return 1.25 - (0.25 * totalProgress) / 2;
+      }
+
+      function animateTitleChange(index, direction) {
+        if (index === currentTitleIndex) return;
+        if (index < 0 || index >= slides.length) return;
+
+        if (isAnimating) { queuedTitleIndex = index; return; }
+
+        isAnimating = true;
+        var newTitle = slides[index].title;
+        var newUrl = slides[index].url;
+        var outY = direction === "down" ? "-120%" : "120%";
+        var inY = direction === "down" ? "120%" : "-120%";
+
+        gsap.killTweensOf(titleElement);
+        exploreLink.href = newUrl;
+
+        gsap.to(titleElement, {
+          y: outY,
+          duration: 0.5,
+          ease: "power3.out",
+          onComplete: function () {
+            titleElement.textContent = newTitle;
+            gsap.set(titleElement, { y: inY });
+            gsap.to(titleElement, {
+              y: "0%",
+              duration: 0.5,
+              ease: "power3.out",
+              onComplete: function () {
+                currentTitleIndex = index;
+                isAnimating = false;
+                if (queuedTitleIndex !== null && queuedTitleIndex !== currentTitleIndex) {
+                  var nextIndex = queuedTitleIndex;
+                  queuedTitleIndex = null;
+                  animateTitleChange(nextIndex, direction);
+                }
+              },
+            });
+          },
+        });
+      }
+
+      function getTitleIndexForProgress(imageProgress) {
+        var imageIndex = Math.floor(imageProgress);
+        var imageSpecificProgress = imageProgress - imageIndex;
+        if (imageSpecificProgress >= titleChangeThreshold) {
+          return Math.min(imageIndex + 1, slides.length - 1);
+        }
+        return imageIndex;
+      }
+
+      var lastImageProgress = 0;
+
+      ScrollTrigger.create({
+        trigger: ".sticky-slider",
+        start: "top top",
+        end: "+=" + totalScrollDistance + "vh",
+        pin: true,
+        pinSpacing: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+
+        onUpdate: function (self) {
+          var imageProgress = calculateImageProgress(self.progress);
+
+          if (typeof imageProgress === "number") {
+            var scrollDirection = imageProgress > lastImageProgress ? "down" : "up";
+            var currentImageIndex = Math.floor(imageProgress);
+            var imageSpecificProgress = imageProgress - currentImageIndex;
+
+            var correctTitleIndex = getTitleIndexForProgress(imageProgress);
+            if (correctTitleIndex !== currentTitleIndex) {
+              queuedTitleIndex = correctTitleIndex;
+              if (!isAnimating) animateTitleChange(correctTitleIndex, scrollDirection);
+            }
+
+            var firstSlideImgScale = getScaleForImage(0, currentImageIndex, imageSpecificProgress);
+            firstSlideImg.style.transform = "scale(" + firstSlideImgScale + ")";
+
+            for (var i4 = 1; i4 < totalSlides; i4++) {
+              var imgIndex = i4 + 1;
+              var transitionIndex = imgIndex - 2;
+              var imgContainer = document.getElementById("img-container-" + imgIndex);
+              if (!imgContainer) continue;
+
+              imgContainer.style.opacity = "1";
+              var strips = imgContainer.querySelectorAll(".strip");
+              var images = imgContainer.querySelectorAll("img");
+
+              if (transitionIndex < currentImageIndex) {
+                strips.forEach(function (strip, si) {
+                  var spfb = stripsCount - si - 1;
+                  var sub = spfb * (100 / stripsCount);
+                  var slb = (spfb + 1) * (100 / stripsCount);
+                  strip.style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + (sub - 0.1) + "%, 0% " + (sub - 0.1) + "%)";
+                });
+              } else if (transitionIndex === currentImageIndex) {
+                strips.forEach(function (strip, si) {
+                  var spfb = stripsCount - si - 1;
+                  var sub = spfb * (100 / stripsCount);
+                  var slb = (spfb + 1) * (100 / stripsCount);
+                  var stripDelay = (si / stripsCount) * 0.5;
+                  var adjustedProgress = Math.max(0, Math.min(1, (imageSpecificProgress - stripDelay) * 2));
+                  var currentSub = slb - (slb - (sub - 0.1)) * adjustedProgress;
+                  strip.style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + currentSub + "%, 0% " + currentSub + "%)";
+                });
+              } else {
+                strips.forEach(function (strip, si) {
+                  var spfb = stripsCount - si - 1;
+                  var slb = (spfb + 1) * (100 / stripsCount);
+                  strip.style.clipPath = "polygon(0% " + slb + "%, 100% " + slb + "%, 100% " + slb + "%, 0% " + slb + "%)";
+                });
+              }
+
+              var imgScale = getScaleForImage(transitionIndex, currentImageIndex, imageSpecificProgress);
+              images.forEach(function (img) { img.style.transform = "scale(" + imgScale + ")"; });
+            }
+
+            lastImageProgress = imageProgress;
+          }
+        },
+      });
+    })();
+  </script>
+
+<script>
+(function(){
+  var tab=document.getElementById("cfTab"),fold=document.getElementById("cfFold");
+  if(!tab||!fold)return;
+  function open(on){
+    fold.classList.toggle("is-open",on);
+    tab.classList.toggle("is-open",on);
+    tab.setAttribute("aria-expanded",on?"true":"false");
+    document.documentElement.classList.toggle("cf-lock",on);
+    var tt=tab.querySelector(".tt"),tg=tab.querySelector(".tg");
+    if(tt)tt.textContent=on?"CLOSE":"SRIVAAS";
+    if(tg)tg.textContent=on?"\u2715":"\u2193";
+  }
+  tab.addEventListener("click",function(e){e.stopPropagation();open(!fold.classList.contains("is-open"))});
+  fold.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){open(false)})});
+  window.addEventListener("keydown",function(e){if(e.key==="Escape")open(false)});
+  document.addEventListener("click",function(e){
+    if(fold.classList.contains("is-open")&&!fold.contains(e.target)&&!tab.contains(e.target))open(false);
+  });
+})();
+</script>
+</body>
+</html>

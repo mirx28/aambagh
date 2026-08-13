@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OVA Scroll Slider | Aambagh Residences</title>
+    <style>
+  /* ===== CORNER FOLD NAV ===== */
+  .cf-tab{position:fixed;top:max(env(safe-area-inset-top),1rem);right:max(env(safe-area-inset-right),1rem);
+    display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.1rem;
+    border:1px solid rgba(201,162,39,.55);border-radius:999px;background:rgba(10,9,8,.5);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);cursor:pointer;z-index:982;
+    color:#e0c879;-webkit-tap-highlight-color:transparent;user-select:none;
+    transition:transform .5s cubic-bezier(.9,0,.1,1),background .3s;}
+  .cf-tab:hover{background:rgba(201,162,39,.16)}
+  .cf-tab.is-open{transform:rotate(-6deg)}
+  .cf-tab .tt{font-family:"Geist Mono","DM Mono",monospace;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#fff}
+  .cf-tab .tg{font-size:.6rem;color:#c9a227;transition:transform .45s cubic-bezier(.9,0,.1,1)}
+  .cf-tab.is-open .tg{transform:rotate(180deg)}
+  .cf-tab::after{content:"";position:absolute;top:-1px;right:-1px;width:14px;height:14px;
+    background:conic-gradient(from 225deg,transparent 0 90deg,#c9a227 0);border-radius:0 999px 0 0}
+  .cf-fold{position:fixed;top:0;right:0;bottom:0;z-index:981;width:min(100vw,430px);
+    background:rgba(9,8,7,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    border-left:1px solid rgba(201,162,39,.22);display:flex;flex-direction:column;
+    padding:calc(env(safe-area-inset-top) + 5.5rem) 2.2rem calc(env(safe-area-inset-bottom) + 2.2rem);
+    clip-path:inset(0 0 0 100%);transition:clip-path .8s cubic-bezier(.83,0,.17,1);
+    pointer-events:none;overflow:hidden;}
+  .cf-fold.is-open{clip-path:inset(0 0 0 0);pointer-events:auto}
+  .cf-fold .cf-bg{position:absolute;top:0;right:-2px;height:100%;width:1px;
+    background:linear-gradient(to bottom,#c9a227,rgba(201,162,39,0));opacity:0;transition:opacity .6s .3s}
+  .cf-fold.is-open .cf-bg{opacity:1}
+  .cf-wordmark{display:flex;align-items:baseline;gap:.5rem;margin-bottom:3rem}
+  .cf-wordmark b{font-family:"PP Neue Montreal",system-ui,sans-serif;font-weight:600;font-size:1rem;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+  .cf-wordmark i{font-family:"Instrument Serif",serif;font-style:italic;font-size:1rem;color:#c9a227}
+  .cf-no{font-family:"Geist Mono","DM Mono",monospace;font-size:.6rem;letter-spacing:.2em;color:rgba(255,255,255,.4)}
+  .cf-links{display:flex;flex-direction:column}
+  .cf-link{display:flex;align-items:center;gap:1rem;padding:.9rem 0;text-decoration:none;color:rgba(255,255,255,.6);
+    border-bottom:1px solid rgba(255,255,255,.08);font-family:"PP Neue Montreal",system-ui,sans-serif;
+    font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;
+    opacity:0;transform:translateX(26px);transition:opacity .5s,transform .5s,color .3s,padding-left .4s cubic-bezier(.9,0,.1,1);
+    -webkit-tap-highlight-color:transparent}
+  .cf-link .cf-idx{font-family:"Geist Mono","DM Mono",monospace;font-size:.58rem;color:#c9a227;letter-spacing:.14em}
+  .cf-link .cf-arr{font-family:"Instrument Serif",serif;font-style:italic;font-size:.9rem;color:#c9a227;opacity:0;transform:translateX(-6px);transition:opacity .3s,transform .3s}
+  .cf-fold.is-open .cf-link{opacity:1;transform:translateY(0)}
+  .cf-fold.is-open .cf-link:nth-child(1){transition-delay:.15s}
+  .cf-fold.is-open .cf-link:nth-child(2){transition-delay:.24s}
+  .cf-fold.is-open .cf-link:nth-child(3){transition-delay:.33s}
+  .cf-fold.is-open .cf-link:nth-child(4){transition-delay:.42s}
+  .cf-link:hover,.cf-link.is-active{color:#fff;padding-left:.6rem}
+  .cf-link:hover .cf-arr,.cf-link.is-active .cf-arr{opacity:1;transform:translateX(0)}
+  .cf-link.is-active .cf-arr{opacity:1}
+  .cf-foot{margin-top:auto;display:flex;justify-content:space-between;gap:1rem;padding-top:2rem;
+    font-family:"Geist Mono","DM Mono",monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+  .cf-foot a{color:#c9a227;text-decoration:none}
+  html.cf-lock,html.cf-lock body{overflow:hidden}
+  @media (prefers-reduced-motion:reduce){.cf-fold{transition:none}.cf-link{transition:none}}
+
+      @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f0f0f;
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 400;
+        letter-spacing: -0.1rem;
+        line-height: 1.2;
+      }
+
+      p {
+        font-family: "Geist Mono", monospace;
+        font-weight: 400;
+        font-size: 0.85rem;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        z-index: 100;
+      }
+
+      .nav-brand {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.25rem;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-brand img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        font-family: "Geist Mono", monospace;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #fff;
+      }
+
+      section {
+        position: relative;
+        width: 100%;
+        height: 100svh;
+        overflow: hidden;
+      }
+
+      .intro,
+      .outro {
+        padding: 2rem;
+        align-content: center;
+        background-color: #0f0f0f;
+        color: #fff;
+      }
+
+      .intro-video,
+      .outro-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .intro::after,
+      .outro::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+        z-index: 0;
+      }
+
+      .intro h1,
+      .outro h1 {
+        position: relative;
+        z-index: 1;
+      }
+
+      .intro h1,
+      .outro h1 {
+        width: 50%;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .slider-images {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slider-images::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.35);
+      }
+
+      .slider-images img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-origin: center;
+        will-change: transform, opacity;
+      }
+
+      .slider-title {
+        position: absolute;
+        top: 50%;
+        left: 2rem;
+        transform: translateY(-50%);
+        width: 50%;
+        color: #fff;
+      }
+
+      .slider-indicator {
+        position: absolute;
+        top: 50%;
+        right: 2rem;
+        transform: translateY(-50%);
+      }
+
+      .slider-indices {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+      }
+
+      .slider-indices p {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: #fff;
+      }
+
+      .index {
+        position: relative;
+        width: 1.25rem;
+        display: flex;
+        justify-content: flex-end;
+        will-change: opacity;
+      }
+
+      .marker {
+        position: relative;
+        width: 0.75rem;
+        height: 1px;
+        background-color: #fff;
+        transform-origin: right;
+        will-change: transform;
+        transform: scaleX(0);
+      }
+
+      .slider-progress-bar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.35);
+      }
+
+      .slider-progress {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) scaleY(0);
+        width: 3px;
+        height: 100%;
+        background-color: #fff;
+        transform-origin: top;
+        will-change: transform;
+      }
+
+      .line {
+        position: relative;
+        display: block;
+        will-change: transform;
+      }
+
+      @media (max-width: 1000px) {
+        h1 {
+          font-size: 2rem;
+          letter-spacing: 0;
+        }
+
+        nav {
+          padding: 1rem 1rem 1.25rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .intro h1,
+        .outro h1 {
+          width: 100%;
+        }
+
+        .slider-title {
+          top: 5rem;
+          left: 0;
+          transform: none;
+          width: 100%;
+          padding: 2rem;
+        }
+
+        .slider-indicator {
+          top: unset;
+          transform: none;
+          bottom: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="cf-tab" id="cfTab" aria-label="Open menu" aria-expanded="false"><span class="tt">SRIVAAS</span><span class="tg">↓</span></button>
+<nav class="cf-fold" id="cfFold" aria-label="Primary">
+  <div class="cf-bg"></div>
+  <div class="cf-wordmark"><b>Srivaas</b><i>Realty</i><span class="cf-no">Aambagh · </span></div>
+  <div class="cf-links">
+    <a class="cf-link" href="index.html"><span class="cf-idx">01</span>Home<span class="cf-arr">→</span></a>
+    <a class="cf-link" href="interior.html"><span class="cf-idx">02</span>Interior<span class="cf-arr">→</span></a>
+    <a class="cf-link is-active" href="exterior.html"><span class="cf-idx">03</span>Exterior<span class="cf-arr">→</span></a>
+    <a class="cf-link" href="walkthrough.html"><span class="cf-idx">04</span>Walkthrough<span class="cf-arr">→</span></a>
+  </div>
+  <div class="cf-foot"><span>© Srivaas Realty</span><a href="mailto:hello@aambagh.in">Enquire →</a></div>
+</nav>
+
+    <section class="intro">
+      <video class="intro-video" src="https://mirx28.github.io/aambagh-residencesvideos/exterior.mp4" autoplay muted loop playsinline></video>
+      <h1>
+        The estate reveals itself slowly — stone rising from the orchard floor,
+        terraces opening toward the river, each façade a threshold between
+        shelter and the open sky.
+      </h1>
+    </section>
+
+    <section class="slider">
+      <div class="slider-images">
+        <img src="img_1.jpg" alt="Slide 1" />
+      </div>
+
+      <div class="slider-title">
+        <h1>
+          The Façade — stone, glass, and the first impression of a residence born
+          from the orchard.
+        </h1>
+      </div>
+
+      <div class="slider-indicator">
+        <div class="slider-indices"></div>
+        <div class="slider-progress-bar">
+          <div class="slider-progress"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="outro">
+      <video class="outro-video" src="https://mirx28.github.io/aambagh-residencesvideos/exterior.mp4" autoplay muted loop playsinline></video>
+      <h1>
+        From the first stone to the last terrace light — the exterior is not a
+        boundary but an invitation, shaped by Srivaas Realty.
+      </h1>
+    </section>
+
+    <script type="module">
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      import { SplitText } from "gsap/SplitText";
+      import Lenis from "lenis";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+
+        const lenis = new Lenis();
+        lenis.on("scroll", ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+
+        const slides = [
+          {
+            title:
+              "The Façade — stone, glass, and the first impression of a residence born from the orchard.",
+            image: "img_1.jpg",
+          },
+          {
+            title:
+              "The Garden Court — where the orchard meets architecture, a courtyard held in dappled light.",
+            image: "img_2.jpg",
+          },
+          {
+            title:
+              "The Pool Pavilion — water reflecting the mango canopy, a place to rest beneath the leaves.",
+            image: "img_3.jpg",
+          },
+          {
+            title:
+              "The Orchard Walk — a path through the grove, where each tree marks the turning of the year.",
+            image: "img_4.jpg",
+          },
+          {
+            title:
+              "The Courtyard — an open room with the sky for a ceiling, carved from the heart of the estate.",
+            image: "img_5.jpg",
+          },
+          {
+            title:
+              "The Entry Portico — the threshold where arrival becomes ceremony, framed in stone and light.",
+            image: "img_6.jpg",
+          },
+          {
+            title:
+              "The Terrace Lawn — a green expanse that steps down toward the ridge, open to the wind.",
+            image: "img_7.jpg",
+          },
+          {
+            title:
+              "The Mango Grove — nine acres of trees planted in straight rows that curve around the house.",
+            image: "img_8.jpg",
+          },
+          {
+            title:
+              "The Water Court — still pools that mirror the sky, a quiet axis through the estate.",
+            image: "img_9.jpg",
+          },
+          {
+            title:
+              "The Boundary Wall — not a barrier but a seam, hand-dressed stone tracing the edge of the orchard.",
+            image: "img_10.jpg",
+          },
+          {
+            title:
+              "The Evening Façade — as the sun drops behind the hills, the house glows from within.",
+            image: "img_11.jpg",
+          },
+          {
+            title:
+              "The Approach — the drive that unwinds through the grove, slowing you before you arrive.",
+            image: "img_12.jpg",
+          },
+        ];
+
+        const pinDistance = window.innerHeight * slides.length;
+        const progressBar = document.querySelector(".slider-progress");
+        const sliderImages = document.querySelector(".slider-images");
+        const sliderTitle = document.querySelector(".slider-title");
+        const sliderIndices = document.querySelector(".slider-indices");
+
+        let activeSlide = 0;
+        let currentSplit = null;
+
+        function createIndices() {
+          sliderIndices.innerHTML = "";
+
+          slides.forEach((_, index) => {
+            const indexNum = (index + 1).toString().padStart(2, "0");
+            const indicatorElement = document.createElement("p");
+            indicatorElement.dataset.index = index;
+            indicatorElement.innerHTML = `<span class="marker"></span><span class="index">${indexNum}</span>`;
+            sliderIndices.appendChild(indicatorElement);
+
+            if (index === 0) {
+              gsap.set(indicatorElement.querySelector(".index"), {
+                opacity: 1,
+              });
+              gsap.set(indicatorElement.querySelector(".marker"), {
+                scaleX: 1,
+              });
+            } else {
+              gsap.set(indicatorElement.querySelector(".index"), {
+                opacity: 0.35,
+              });
+              gsap.set(indicatorElement.querySelector(".marker"), {
+                scaleX: 0,
+              });
+            }
+          });
+        }
+
+        function animateNewSlide(index) {
+          const newSliderImage = document.createElement("img");
+          newSliderImage.src = slides[index].image;
+          newSliderImage.alt = `Slide ${index + 1}`;
+
+          gsap.set(newSliderImage, {
+            opacity: 0,
+            scale: 1.1,
+          });
+
+          sliderImages.appendChild(newSliderImage);
+
+          gsap.to(newSliderImage, {
+            opacity: 1,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+
+          gsap.to(newSliderImage, {
+            scale: 1,
+            duration: 1,
+            ease: "power2.out",
+          });
+
+          const allImages = sliderImages.querySelectorAll("img");
+          if (allImages.length > 3) {
+            const removeCount = allImages.length - 3;
+            for (let i = 0; i < removeCount; i++) {
+              sliderImages.removeChild(allImages[i]);
+            }
+          }
+
+          animateNewTitle(index);
+          animateIndicators(index);
+        }
+
+        function animateIndicators(index) {
+          const indicators = sliderIndices.querySelectorAll("p");
+
+          indicators.forEach((indicator, i) => {
+            const markerElement = indicator.querySelector(".marker");
+            const indexElement = indicator.querySelector(".index");
+
+            if (i === index) {
+              gsap.to(indexElement, {
+                opacity: 1,
+                duration: 0.3,
+                ease: "power2.out",
+              });
+
+              gsap.to(markerElement, {
+                scaleX: 1,
+                duration: 0.3,
+                ease: "power2.out",
+              });
+            } else {
+              gsap.to(indexElement, {
+                opacity: 0.5,
+                duration: 0.3,
+                ease: "power2.out",
+              });
+
+              gsap.to(markerElement, {
+                scaleX: 0,
+                duration: 0.3,
+                ease: "power2.out",
+              });
+            }
+          });
+        }
+
+        function animateNewTitle(index) {
+          if (currentSplit) {
+            currentSplit.revert();
+          }
+
+          sliderTitle.innerHTML = `<h1>${slides[index].title}</h1>`;
+
+          currentSplit = new SplitText(sliderTitle.querySelector("h1"), {
+            type: "lines",
+            linesClass: "line",
+            mask: "lines",
+          });
+
+          gsap.set(currentSplit.lines, {
+            yPercent: 100,
+            opacity: 0,
+          });
+
+          gsap.to(currentSplit.lines, {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.75,
+            stagger: 0.1,
+            ease: "power3.out",
+          });
+        }
+
+        createIndices();
+
+        ScrollTrigger.create({
+          trigger: ".slider",
+          start: "top top",
+          end: `+=${pinDistance}px`,
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          onUpdate: (self) => {
+            gsap.set(progressBar, {
+              scaleY: self.progress,
+            });
+
+            const currentSlide = Math.floor(self.progress * slides.length);
+
+            if (activeSlide !== currentSlide && currentSlide < slides.length) {
+              activeSlide = currentSlide;
+              animateNewSlide(activeSlide);
+            }
+          },
+        });
+      });
+    </script>
+  
+<script>
+(function(){
+  var tab=document.getElementById("cfTab"),fold=document.getElementById("cfFold");
+  if(!tab||!fold)return;
+  function open(on){
+    fold.classList.toggle("is-open",on);
+    tab.classList.toggle("is-open",on);
+    tab.setAttribute("aria-expanded",on?"true":"false");
+    document.documentElement.classList.toggle("cf-lock",on);
+    var tt=tab.querySelector(".tt"),tg=tab.querySelector(".tg");
+    if(tt)tt.textContent=on?"CLOSE":"SRIVAAS";
+    if(tg)tg.textContent=on?"\u2715":"\u2193";
+  }
+  tab.addEventListener("click",function(e){e.stopPropagation();open(!fold.classList.contains("is-open"))});
+  fold.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){open(false)})});
+  window.addEventListener("keydown",function(e){if(e.key==="Escape")open(false)});
+  document.addEventListener("click",function(e){
+    if(fold.classList.contains("is-open")&&!fold.contains(e.target)&&!tab.contains(e.target))open(false);
+  });
+})();
+</script>
+</body>
+</html>
