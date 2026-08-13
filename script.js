@@ -1,12 +1,13 @@
 import { vertexShader, fragmentShader } from "./shaders.js";
 import projectSlides from "./slides.js";
 
-import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import CustomEase from "gsap/CustomEase";
-import Lenis from "lenis";
+// Libraries loaded via CDN <script> tags (index.html) — globals on window
+const THREE = window.THREE;
+const gsap = window.gsap;
+const ScrollTrigger = window.ScrollTrigger;
+const SplitText = window.SplitText;
+const CustomEase = window.CustomEase;
+const Lenis = window.Lenis;
 
 gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
