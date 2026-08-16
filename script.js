@@ -309,6 +309,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const psWrapper = document.getElementById("psWrapper");
   const psSlider = document.getElementById("psSlider");
 
+  document.querySelectorAll(".ps-slide-link a").forEach((link) => {
+    link.href = "walkthrough.html";
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.location.href = "walkthrough.html";
+    });
+  });
+
   function createPsSlide(slideIndex) {
     const slideData = projectSlides[slideIndex - 1];
 
@@ -340,8 +348,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const slideLink = document.createElement("div");
     slideLink.className = "ps-slide-link";
     const a = document.createElement("a");
-    a.href = slideData.slideUrl;
+    a.href = "walkthrough.html";
     a.textContent = "View Project";
+    a.setAttribute("rel", "noopener noreferrer");
+    a.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.location.href = "walkthrough.html";
+    });
     slideLink.appendChild(a);
 
     slideHeader.appendChild(slideTitle);
