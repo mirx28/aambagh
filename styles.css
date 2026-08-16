@@ -14,8 +14,11 @@
   box-sizing: border-box;
 }
 
+html { overscroll-behavior-y: none; } /* stop pull-to-refresh / page reload on mobile */
+
 body {
   font-family: "PP Neue Montreal", sans-serif;
+  touch-action: pan-y;
 }
 
 img,
