@@ -14,7 +14,16 @@
   box-sizing: border-box;
 }
 
-html { overscroll-behavior-y: none; } /* stop pull-to-refresh / page reload on mobile */
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+  -webkit-overflow-scrolling: touch;
+}
 
 body {
   font-family: "PP Neue Montreal", sans-serif;
