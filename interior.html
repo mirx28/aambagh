@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
   <title>Aambagh Residences — Interior | Srivaas Realty</title>
 
   <!-- ============ CDN LIBS ============ -->
@@ -64,7 +64,12 @@
     @import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: "PP Neue Montreal", sans-serif; background: #141414; }
+    html { overscroll-behavior-y: none; } /* stop pull-to-refresh / page reload on mobile */
+    body {
+      font-family: "PP Neue Montreal", sans-serif;
+      background: #141414;
+      touch-action: pan-y; /* keep vertical swipes working, block accidental pinch/zoom */
+    }
 
     img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s ease-out; transform-origin: center center; }
 
@@ -190,6 +195,13 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
       .slide-title { height: 22px; }
       .slide-info p, .slide-link a { font-size: 18px; }
     }
+    @media (max-width: 560px) {
+      section { padding: 0.9em; }
+      .slide-info { padding: 0 1.2em; gap: 1em; }
+      .slide-info p, .slide-link a { font-size: 15px; }
+      .slide-title { height: 18px; }
+      .slide-link { align-items: center; }
+    }
   </style>
 </head>
 <body>
@@ -205,7 +217,7 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
     <a class="cf-link" href="exterior.html"><span class="cf-idx">03</span>Exterior<span class="cf-arr">→</span></a>
     <a class="cf-link" href="walkthrough.html"><span class="cf-idx">04</span>Walkthrough<span class="cf-arr">→</span></a>
   </div>
-  <div class="cf-foot"><span>© Srivaas Realty</span><a href="mailto:hello@aambagh.in">Enquire →</a></div>
+<div class="cf-foot"><span>© Srivaas Realty</span><a href="https://wa.me/917505091761?text=Hello%20Srivaas%20Realty%2C%20I%20would%20like%20to%20enquire%20about%20Aambagh%20Residences." target="_blank" rel="noopener noreferrer">Enquire →</a></div>
 </nav>
 
  <!-- ============ INTRO ============ -->
@@ -266,21 +278,21 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
        15 SLIDES DATA
     =============================================================== */
     const slides = [
-      { title: "Grand Foyer",      image: "public/img1.jpg",  url: "/interior/grand-foyer" },
-      { title: "Living Salon",     image: "public/img2.jpg",  url: "/interior/living-salon" },
-      { title: "The Library",      image: "public/img3.jpg",  url: "/interior/the-library" },
-      { title: "Dining Hall",      image: "public/img4.jpg",  url: "/interior/dining-hall" },
-      { title: "Kitchen Atrium",   image: "public/img5.jpg",  url: "/interior/kitchen-atrium" },
-      { title: "Master Suite",     image: "public/img6.jpg",  url: "/interior/master-suite" },
-      { title: "Bath Chamber",     image: "public/img7.jpg",  url: "/interior/bath-chamber" },
-      { title: "Guest Wing",       image: "public/img8.jpg",  url: "/interior/guest-wing" },
-      { title: "Children's Suite", image: "public/img9.jpg",  url: "/interior/childrens-suite" },
-      { title: "The Study",        image: "public/img10.jpg", url: "/interior/the-study" },
-      { title: "Wine Cellar",      image: "public/img11.jpg", url: "/interior/wine-cellar" },
-      { title: "Spa Pavilion",     image: "public/img12.jpg", url: "/interior/spa-pavilion" },
-      { title: "Home Theatre",     image: "public/img13.jpg", url: "/interior/home-theatre" },
-      { title: "Art Gallery",      image: "public/img14.jpg", url: "/interior/art-gallery" },
-      { title: "Rooftop Terrace",  image: "public/img15.jpg", url: "/interior/rooftop-terrace" },
+      { title: "In Light",              image: "public/img1.jpg",  url: "interior.html" },
+      { title: "Still Air",             image: "public/img2.jpg",  url: "interior.html" },
+      { title: "Warm Matter",           image: "public/img3.jpg",  url: "interior.html" },
+      { title: "Gilded Quiet",          image: "public/img4.jpg",  url: "interior.html" },
+      { title: "Held Light",            image: "public/img5.jpg",  url: "interior.html" },
+      { title: "Soft Contour",          image: "public/img6.jpg",  url: "interior.html" },
+      { title: "Water & Stone",        image: "public/img7.jpg",  url: "interior.html" },
+      { title: "A Room for Rest",       image: "public/img8.jpg",  url: "interior.html" },
+      { title: "Morning Play",          image: "public/img9.jpg",  url: "interior.html" },
+      { title: "Quiet Study",           image: "public/img10.jpg", url: "interior.html" },
+      { title: "Deep Cellar",           image: "public/img11.jpg", url: "interior.html" },
+      { title: "Steam & Stone",         image: "public/img12.jpg", url: "interior.html" },
+      { title: "After the Dark",        image: "public/img13.jpg", url: "interior.html" },
+      { title: "The Gallery Wall",      image: "public/img14.jpg", url: "interior.html" },
+      { title: "Above the Skyline",     image: "public/img15.jpg", url: "interior.html" },
     ];
 
     /* ===============================================================
@@ -301,7 +313,10 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
       var exploreLink = document.querySelector(".slide-link a");
 
       var totalSlides = slides.length;
-      var stripsCount = 25;
+      /* Mobile-friendly: fewer strips + shorter scroll on small screens to cut GPU work & keep it snappy */
+      var isMobile = window.matchMedia("(max-width: 768px)").matches ||
+                     ("ontouchstart" in window && window.innerWidth <= 1024);
+      var stripsCount = isMobile ? 10 : 25;
       var currentTitleIndex = 0;
       var queuedTitleIndex = null;
       var titleChangeThreshold = 0.5;
@@ -339,9 +354,10 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
       }
 
       var transitionCount = totalSlides - 1;
-      var scrollDistancePerTransition = 1000;
-      var initialScrollDelay = 300;
-      var finalScrollDelay = 300;
+      var isCompact = window.innerWidth <= 768;
+      var scrollDistancePerTransition = isCompact ? 420 : 1000;
+      var initialScrollDelay = isCompact ? 140 : 300;
+      var finalScrollDelay = isCompact ? 140 : 300;
 
       var totalScrollDistance = transitionCount * scrollDistancePerTransition + initialScrollDelay + finalScrollDelay;
 
