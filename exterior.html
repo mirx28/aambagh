@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
     <title>OVA Scroll Slider | Aambagh Residences</title>
     <style>
   /* ===== CORNER FOLD NAV ===== */
@@ -63,9 +63,11 @@
         box-sizing: border-box;
       }
 
+      html { overscroll-behavior-y: none; } /* stop pull-to-refresh / page reload on mobile */
       body {
         font-family: "Inter", sans-serif;
         background: #0f0f0f;
+        touch-action: pan-y;
       }
 
       h1 {
@@ -332,7 +334,7 @@
     <a class="cf-link is-active" href="exterior.html"><span class="cf-idx">03</span>Exterior<span class="cf-arr">→</span></a>
     <a class="cf-link" href="walkthrough.html"><span class="cf-idx">04</span>Walkthrough<span class="cf-arr">→</span></a>
   </div>
-  <div class="cf-foot"><span>© Srivaas Realty</span><a href="mailto:hello@aambagh.in">Enquire →</a></div>
+<div class="cf-foot"><span>© Srivaas Realty</span><a href="https://wa.me/917505091761?text=Hello%20Srivaas%20Realty%2C%20I%20would%20like%20to%20enquire%20about%20Aambagh%20Residences." target="_blank" rel="noopener noreferrer">Enquire →</a></div>
 </nav>
 
     <section class="intro">
