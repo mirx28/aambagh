@@ -53,6 +53,7 @@
   .cf-foot{margin-top:auto;display:flex;justify-content:space-between;gap:1rem;padding-top:2rem;
     font-family:"Geist Mono","DM Mono",monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
   .cf-foot a{color:#c9a227;text-decoration:none}
+  html,body{margin:0;width:100%;min-height:100%;overflow-x:hidden;overscroll-behavior:none;overscroll-behavior-y:none;overscroll-behavior-x:none;-webkit-overflow-scrolling:touch}
   html.cf-lock,html.cf-lock body{overflow:hidden}
   @media (prefers-reduced-motion:reduce){.cf-fold{transition:none}.cf-link{transition:none}}
 </style>
@@ -170,7 +171,7 @@
               </p>
             </div>
             <div class="ps-slide-link">
-              <a href="walkthrough.html">View Project</a>
+              <a href="walkthrough.html" onclick="window.location.href='walkthrough.html'; return false;">View Project</a>
             </div>
           </div>
 
