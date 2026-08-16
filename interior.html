@@ -262,7 +262,7 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
         <p id="title-text">Grand Foyer</p>
       </div>
       <div class="slide-link">
-        <a href="#">Explore &#8599;</a>
+        <a href="walkthrough.html" onclick="window.location.href='walkthrough.html'; return false;">Explore &#8599;</a>
       </div>
     </div>
   </section>
@@ -287,21 +287,21 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
        15 SLIDES DATA
     =============================================================== */
     const slides = [
-      { title: "In Light",              image: "public/img1.jpg",  url: "interior.html" },
-      { title: "Still Air",             image: "public/img2.jpg",  url: "interior.html" },
-      { title: "Warm Matter",           image: "public/img3.jpg",  url: "interior.html" },
-      { title: "Gilded Quiet",          image: "public/img4.jpg",  url: "interior.html" },
-      { title: "Held Light",            image: "public/img5.jpg",  url: "interior.html" },
-      { title: "Soft Contour",          image: "public/img6.jpg",  url: "interior.html" },
-      { title: "Water & Stone",        image: "public/img7.jpg",  url: "interior.html" },
-      { title: "A Room for Rest",       image: "public/img8.jpg",  url: "interior.html" },
-      { title: "Morning Play",          image: "public/img9.jpg",  url: "interior.html" },
-      { title: "Quiet Study",           image: "public/img10.jpg", url: "interior.html" },
-      { title: "Deep Cellar",           image: "public/img11.jpg", url: "interior.html" },
-      { title: "Steam & Stone",         image: "public/img12.jpg", url: "interior.html" },
-      { title: "After the Dark",        image: "public/img13.jpg", url: "interior.html" },
-      { title: "The Gallery Wall",      image: "public/img14.jpg", url: "interior.html" },
-      { title: "Above the Skyline",     image: "public/img15.jpg", url: "interior.html" },
+      { title: "In Light",              image: "public/img1.jpg",  url: "walkthrough.html" },
+      { title: "Still Air",             image: "public/img2.jpg",  url: "walkthrough.html" },
+      { title: "Warm Matter",           image: "public/img3.jpg",  url: "walkthrough.html" },
+      { title: "Gilded Quiet",          image: "public/img4.jpg",  url: "walkthrough.html" },
+      { title: "Held Light",            image: "public/img5.jpg",  url: "walkthrough.html" },
+      { title: "Soft Contour",          image: "public/img6.jpg",  url: "walkthrough.html" },
+      { title: "Water & Stone",        image: "public/img7.jpg",  url: "walkthrough.html" },
+      { title: "A Room for Rest",       image: "public/img8.jpg",  url: "walkthrough.html" },
+      { title: "Morning Play",          image: "public/img9.jpg",  url: "walkthrough.html" },
+      { title: "Quiet Study",           image: "public/img10.jpg", url: "walkthrough.html" },
+      { title: "Deep Cellar",           image: "public/img11.jpg", url: "walkthrough.html" },
+      { title: "Steam & Stone",         image: "public/img12.jpg", url: "walkthrough.html" },
+      { title: "After the Dark",        image: "public/img13.jpg", url: "walkthrough.html" },
+      { title: "The Gallery Wall",      image: "public/img14.jpg", url: "walkthrough.html" },
+      { title: "Above the Skyline",     image: "public/img15.jpg", url: "walkthrough.html" },
     ];
 
     /* ===============================================================
@@ -320,13 +320,53 @@ h1 { font-size: clamp(2.25rem, 4.2vw, 4rem); line-height: 1.15; user-select: non
       var slideImages = document.querySelector(".slide-images");
       var titleElement = document.getElementById("title-text");
       var exploreLink = document.querySelector(".slide-link a");
+      var firstSlideImg = document.querySelector("#img-1 img");
+
+      if (exploreLink) {
+        exploreLink.href = slides[0].url;
+        exploreLink.addEventListener("click", function (event) {
+          event.preventDefault();
+          window.location.href = "walkthrough.html";
+        });
+      }
 
       var totalSlides = slides.length;
-      /* Mobile-friendly: fewer strips + shorter scroll on small screens to cut GPU work & keep it snappy */
+      var isMobileSafari = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (window.matchMedia("(max-width: 768px)").matches && "ontouchstart" in window);
       var isMobile = window.matchMedia("(max-width: 768px)").matches ||
                      ("ontouchstart" in window && window.innerWidth <= 1024);
       var stripsCount = isMobile ? 10 : 25;
       var currentTitleIndex = 0;
+
+      if (isMobileSafari) {
+        var mobileIndex = 0;
+
+        function updateMobileScrollState(progress) {
+          progress = Math.min(Math.max(progress, 0), 1);
+          var normalized = Math.round(progress * (slides.length - 1));
+          if (normalized !== mobileIndex) {
+            mobileIndex = normalized;
+            titleElement.textContent = slides[mobileIndex].title;
+            if (exploreLink) exploreLink.href = slides[mobileIndex].url;
+          }
+
+          var scale = 1.15 + (progress * 0.25);
+          if (firstSlideImg) firstSlideImg.style.transform = "scale(" + scale + ")";
+        }
+
+        ScrollTrigger.create({
+          trigger: ".sticky-slider",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            updateMobileScrollState(self.progress);
+          },
+        });
+
+        return;
+      }
       var queuedTitleIndex = null;
       var titleChangeThreshold = 0.5;
       var isAnimating = false;
