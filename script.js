@@ -329,72 +329,73 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = slideData.slideImg;
     img.alt = "";
     slideImg.appendChild(img);
-
-    const slideHeader = document.createElement("div");
-    slideHeader.className = "ps-slide-header";
-
-    const slideTitle = document.createElement("div");
-    slideTitle.className = "ps-slide-title";
-    const h1 = document.createElement("h1");
-    h1.textContent = slideData.slideTitle;
-    slideTitle.appendChild(h1);
-
-    const slideDescription = document.createElement("div");
-    slideDescription.className = "ps-slide-description";
-    const p = document.createElement("p");
-    p.textContent = slideData.slideDescription;
-    slideDescription.appendChild(p);
-
-    const slideLink = document.createElement("div");
-    slideLink.className = "ps-slide-link";
-    const a = document.createElement("a");
-    a.href = "walkthrough.html";
-    a.textContent = "View Project";
-    a.setAttribute("rel", "noopener noreferrer");
-    a.addEventListener("click", (event) => {
-      event.preventDefault();
-      window.location.href = "walkthrough.html";
-    });
-    slideLink.appendChild(a);
-
-    slideHeader.appendChild(slideTitle);
-    slideHeader.appendChild(slideDescription);
-    slideHeader.appendChild(slideLink);
-
-    const slideInfo = document.createElement("div");
-    slideInfo.className = "ps-slide-info";
-
-    const slideTags = document.createElement("div");
-    slideTags.className = "ps-slide-tags";
-    const tagsLabel = document.createElement("p");
-    tagsLabel.textContent = "Tags";
-    slideTags.appendChild(tagsLabel);
-
-    slideData.slideTags.forEach((tag) => {
-      const tagP = document.createElement("p");
-      tagP.textContent = tag;
-      slideTags.appendChild(tagP);
-    });
-
-    const slideIndexWrapper = document.createElement("div");
-    slideIndexWrapper.className = "ps-slide-index-wrapper";
-    const slideIndexCopy = document.createElement("p");
-    slideIndexCopy.textContent = slideIndex.toString().padStart(2, "0");
-    const slideIndexSeparator = document.createElement("p");
-    slideIndexSeparator.textContent = "/";
-    const slidesTotalCount = document.createElement("p");
-    slidesTotalCount.textContent = totalPsSlides.toString().padStart(2, "0");
-
-    slideIndexWrapper.appendChild(slideIndexCopy);
-    slideIndexWrapper.appendChild(slideIndexSeparator);
-    slideIndexWrapper.appendChild(slidesTotalCount);
-
-    slideInfo.appendChild(slideTags);
-    slideInfo.appendChild(slideIndexWrapper);
-
     slide.appendChild(slideImg);
-    slide.appendChild(slideHeader);
-    slide.appendChild(slideInfo);
+
+    if (slideIndex === 1) {
+      const slideHeader = document.createElement("div");
+      slideHeader.className = "ps-slide-header";
+
+      const slideTitle = document.createElement("div");
+      slideTitle.className = "ps-slide-title";
+      const h1 = document.createElement("h1");
+      h1.textContent = slideData.slideTitle;
+      slideTitle.appendChild(h1);
+
+      const slideDescription = document.createElement("div");
+      slideDescription.className = "ps-slide-description";
+      const p = document.createElement("p");
+      p.textContent = slideData.slideDescription;
+      slideDescription.appendChild(p);
+
+      const slideLink = document.createElement("div");
+      slideLink.className = "ps-slide-link";
+      const a = document.createElement("a");
+      a.href = "walkthrough.html";
+      a.textContent = "View Project";
+      a.setAttribute("rel", "noopener noreferrer");
+      a.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.location.href = "walkthrough.html";
+      });
+      slideLink.appendChild(a);
+
+      slideHeader.appendChild(slideTitle);
+      slideHeader.appendChild(slideDescription);
+      slideHeader.appendChild(slideLink);
+      slide.appendChild(slideHeader);
+
+      const slideInfo = document.createElement("div");
+      slideInfo.className = "ps-slide-info";
+
+      const slideTags = document.createElement("div");
+      slideTags.className = "ps-slide-tags";
+      const tagsLabel = document.createElement("p");
+      tagsLabel.textContent = "Tags";
+      slideTags.appendChild(tagsLabel);
+
+      slideData.slideTags.forEach((tag) => {
+        const tagP = document.createElement("p");
+        tagP.textContent = tag;
+        slideTags.appendChild(tagP);
+      });
+
+      const slideIndexWrapper = document.createElement("div");
+      slideIndexWrapper.className = "ps-slide-index-wrapper";
+      const slideIndexCopy = document.createElement("p");
+      slideIndexCopy.textContent = slideIndex.toString().padStart(2, "0");
+      const slideIndexSeparator = document.createElement("p");
+      slideIndexSeparator.textContent = "/";
+      const slidesTotalCount = document.createElement("p");
+      slidesTotalCount.textContent = totalPsSlides.toString().padStart(2, "0");
+
+      slideIndexWrapper.appendChild(slideIndexCopy);
+      slideIndexWrapper.appendChild(slideIndexSeparator);
+      slideIndexWrapper.appendChild(slidesTotalCount);
+
+      slideInfo.appendChild(slideTags);
+      slideInfo.appendChild(slideIndexWrapper);
+      slide.appendChild(slideInfo);
+    }
 
     return slide;
   }
